@@ -11,10 +11,10 @@ type ProviderConfig struct {
 	Timeout     int // in seconds
 	Retries     int
 	// Pagination and filtering
-	FetchAll           bool
-	PageSize           int
-	MinTVLETH          float64
-	MinTrackedReserve  float64
+	FetchAll          bool
+	PageSize          int
+	MinTVLETH         float64
+	MinTrackedReserve float64
 }
 
 // SubgraphProvider defines the interface for getting pools from subgraph

@@ -3,21 +3,21 @@ package main
 import (
 	"context"
 	"fmt"
-	"time"
 	"go-fetcher/config"
 	"go-fetcher/providers"
 	"go-fetcher/types"
+	"time"
 
 	"github.com/sirupsen/logrus"
 )
 
 // PoolFetcher manages all pool providers and provides a unified interface
 type PoolFetcher struct {
-	chainID types.ChainID
+	chainID    types.ChainID
 	v2Provider providers.SubgraphProvider
 	v3Provider providers.SubgraphProvider
 	v4Provider providers.SubgraphProvider
-	logger   *logrus.Logger
+	logger     *logrus.Logger
 }
 
 // NewPoolFetcher creates a new pool fetcher for a specific chain
@@ -220,7 +220,7 @@ func (f *PoolFetcher) GetPools(protocol types.Protocol, config *providers.Provid
 	}
 
 	f.logger.Infof("Fetching %s pools for chain %d", protocol, f.chainID)
-	
+
 	start := time.Now()
 	pools, err := provider.GetPools(ctx, config)
 	duration := time.Since(start)

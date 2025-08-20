@@ -3,8 +3,8 @@ package providers
 import (
 	"context"
 	"fmt"
-	"time"
 	"go-fetcher/types"
+	"time"
 
 	"github.com/patrickmn/go-cache"
 )
@@ -28,7 +28,7 @@ func NewCachingSubgraphProvider(chainID types.ChainID, protocol types.Protocol, 
 // GetPools gets pools with caching
 func (p *CachingSubgraphProvider) GetPools(ctx context.Context, config *ProviderConfig) ([]types.Pool, error) {
 	cacheKey := p.generateCacheKey(config)
-	
+
 	// Try to get from cache first
 	if cached, found := p.cache.Get(cacheKey); found {
 		if pools, ok := cached.([]types.Pool); ok {
@@ -55,7 +55,7 @@ func (p *CachingSubgraphProvider) GetV2Pools(ctx context.Context, config *Provid
 	}
 
 	cacheKey := p.generateCacheKey(config) + "_v2"
-	
+
 	// Try to get from cache first
 	if cached, found := p.cache.Get(cacheKey); found {
 		if pools, ok := cached.([]types.V2Pool); ok {
@@ -86,7 +86,7 @@ func (p *CachingSubgraphProvider) GetV3Pools(ctx context.Context, config *Provid
 	}
 
 	cacheKey := p.generateCacheKey(config) + "_v3"
-	
+
 	// Try to get from cache first
 	if cached, found := p.cache.Get(cacheKey); found {
 		if pools, ok := cached.([]types.V3Pool); ok {
@@ -117,7 +117,7 @@ func (p *CachingSubgraphProvider) GetV4Pools(ctx context.Context, config *Provid
 	}
 
 	cacheKey := p.generateCacheKey(config) + "_v4"
-	
+
 	// Try to get from cache first
 	if cached, found := p.cache.Get(cacheKey); found {
 		if pools, ok := cached.([]types.V4Pool); ok {
@@ -144,13 +144,13 @@ func (p *CachingSubgraphProvider) GetV4Pools(ctx context.Context, config *Provid
 // generateCacheKey generates a cache key based on chain ID, protocol, and config
 func (p *CachingSubgraphProvider) generateCacheKey(config *ProviderConfig) string {
 	key := fmt.Sprintf("pools_%d_%s", p.chainID, p.protocol)
-	
+
 	if config != nil {
 		if config.BlockNumber != nil {
 			key += fmt.Sprintf("_block_%d", *config.BlockNumber)
 		}
 	}
-	
+
 	return key
 }
 

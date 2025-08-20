@@ -4,10 +4,10 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"go-fetcher/types"
 	"io"
 	"net/http"
 	"time"
-	"go-fetcher/types"
 )
 
 // URISubgraphProvider fetches pools from a URI (IPFS cache)
@@ -22,9 +22,9 @@ type URISubgraphProvider struct {
 func NewURISubgraphProvider(chainID types.ChainID, protocol types.Protocol, uri string, timeout time.Duration, retries int) *URISubgraphProvider {
 	return &URISubgraphProvider{
 		BaseProvider: NewBaseProvider(chainID, protocol),
-		uri:         uri,
-		timeout:     timeout,
-		retries:     retries,
+		uri:          uri,
+		timeout:      timeout,
+		retries:      retries,
 	}
 }
 

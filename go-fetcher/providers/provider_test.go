@@ -2,8 +2,8 @@ package providers
 
 import (
 	"context"
-	"testing"
 	"go-fetcher/types"
+	"testing"
 	"time"
 )
 

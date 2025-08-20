@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"os"
 	"go-fetcher/providers"
 	"go-fetcher/types"
+	"os"
 
 	"github.com/sirupsen/logrus"
 )
@@ -14,14 +14,14 @@ import (
 func main() {
 	// Parse command line flags
 	var (
-		chainID   = flag.Int64("chain", 1, "Chain ID (1=Mainnet, 10=Optimism, 42161=Arbitrum, etc.)")
-		protocol  = flag.String("protocol", "all", "Protocol to fetch (v2, v3, v4, all)")
-		output    = flag.String("output", "", "Output file path (optional)")
-		verbose   = flag.Bool("verbose", false, "Enable verbose logging")
-		topN      = flag.Int("top", 10, "Show top N pools by TVL")
-		fetchAll  = flag.Bool("fetch-all", false, "Fetch all pages from subgraph (may take time)")
-		pageSize  = flag.Int("page-size", 1000, "GraphQL page size")
-		minTVLETH = flag.Float64("min-tvl-eth", 0.01, "Min TVL in ETH for V3/V4 filtering")
+		chainID           = flag.Int64("chain", 1, "Chain ID (1=Mainnet, 10=Optimism, 42161=Arbitrum, etc.)")
+		protocol          = flag.String("protocol", "all", "Protocol to fetch (v2, v3, v4, all)")
+		output            = flag.String("output", "", "Output file path (optional)")
+		verbose           = flag.Bool("verbose", false, "Enable verbose logging")
+		topN              = flag.Int("top", 10, "Show top N pools by TVL")
+		fetchAll          = flag.Bool("fetch-all", false, "Fetch all pages from subgraph (may take time)")
+		pageSize          = flag.Int("page-size", 1000, "GraphQL page size")
+		minTVLETH         = flag.Float64("min-tvl-eth", 0.01, "Min TVL in ETH for V3/V4 filtering")
 		minTrackedReserve = flag.Float64("min-tracked-reserve", 0.025, "Min tracked reserve ETH for V2 filtering")
 	)
 	flag.Parse()
@@ -140,7 +140,7 @@ func displayPools(protocol string, pools []types.Pool, topN int, outputFile stri
 // saveToFile saves all pools to a JSON file
 func saveToFile(allPools map[types.Protocol][]types.Pool, filename string) {
 	data := make(map[string]interface{})
-	
+
 	for protocol, pools := range allPools {
 		protocolStr := string(protocol)
 		data[protocolStr] = pools

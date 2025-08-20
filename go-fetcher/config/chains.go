@@ -2,58 +2,60 @@ package config
 
 import "go-fetcher/types"
 
-// SubgraphURLs maps chain IDs to their subgraph URLs
+const API_KEY = "27b52db08151aa3014307993833f704c"
+
+// SubgraphURLs maps chain IDs to their subgraph URLs with updated API key
 var SubgraphURLs = map[types.ChainID]map[types.Protocol]string{
 	types.Mainnet: {
-		types.V2: "https://gateway-arbitrum.network.thegraph.com/api/0ae45f0bf40ae2e73119b44ccd755967/subgraphs/id/ELUcwgpm14LKPLrBRuVvPvNKHQ9HvwmtKgKSH6123cr7",
-		types.V3: "https://gateway-arbitrum.network.thegraph.com/api/0ae45f0bf40ae2e73119b44ccd755967/subgraphs/id/ELUcwgpm14LKPLrBRuVvPvNKHQ9HvwmtKgKSH6123cr7",
-		types.V4: "https://gateway-arbitrum.network.thegraph.com/api/0ae45f0bf40ae2e73119b44ccd755967/subgraphs/id/ELUcwgpm14LKPLrBRuVvPvNKHQ9HvwmtKgKSH6123cr7",
+		types.V2: "https://gateway-arbitrum.network.thegraph.com/api/" + API_KEY + "/subgraphs/id/EYCKATKGBKLWvSfwvBjzfCBmGwYNdVkduYXVivCsLRFu",
+		types.V3: "https://gateway-arbitrum.network.thegraph.com/api/" + API_KEY + "/subgraphs/id/5zvR82QoaXYFyDEKLZ9t6v9adgnptxYpKpSbxtgVENFV",
+		types.V4: "https://gateway-arbitrum.network.thegraph.com/api/27b52db08151aa3014307993833f704c/subgraphs/id/Cd2gEDVeqnjBn1hSeqFMitw8Q1iiyXHRKWOTLxHdHfX7",
 	},
-	types.Optimism: {
-		types.V2: "https://gateway-arbitrum.network.thegraph.com/api/0ae45f0bf40ae2e73119b44ccd755967/subgraphs/id/ELUcwgpm14LKPLrBRuVvPvNKHQ9HvwmtKgKSH6123cr7",
-		types.V3: "https://gateway-arbitrum.network.thegraph.com/api/0ae45f0bf40ae2e73119b44ccd755967/subgraphs/id/ELUcwgpm14LKPLrBRuVvPvNKHQ9HvwmtKgKSH6123cr7",
-		types.V4: "https://gateway-arbitrum.network.thegraph.com/api/0ae45f0bf40ae2e73119b44ccd755967/subgraphs/id/ELUcwgpm14LKPLrBRuVvPvNKHQ9HvwmtKgKSH6123cr7",
-	},
+	// types.Optimism: {
+	// 	types.V2: "https://gateway-arbitrum.network.thegraph.com/api/27b52db08151aa3014307993833f704c/subgraphs/id/EYCKATKGBKLWvSfwvBjzfCBmGwYNdVkduYXVivCsLRFu",
+	// 	types.V3: "https://gateway-arbitrum.network.thegraph.com/api/27b52db08151aa3014307993833f704c/subgraphs/id/Cghf4LfVqPiFw6fp6Y5X5Ubc8UpmUhSfJL82zpMFEjsR",
+	// 	types.V4: "https://gateway-arbitrum.network.thegraph.com/api/27b52db08151aa3014307993833f704c/subgraphs/id/Cd2gEDVeqnjBn1hSeqFMitw8Q1iiyXHRKWOTLxHdHfX7",
+	// },
 	types.Arbitrum: {
-		types.V2: "https://gateway-arbitrum.network.thegraph.com/api/0ae45f0bf40ae2e73119b44ccd755967/subgraphs/id/ELUcwgpm14LKPLrBRuVvPvNKHQ9HvwmtKgKSH6123cr7",
-		types.V3: "https://gateway-arbitrum.network.thegraph.com/api/0ae45f0bf40ae2e73119b44ccd755967/subgraphs/id/ELUcwgpm14LKPLrBRuVvPvNKHQ9HvwmtKgKSH6123cr7",
-		types.V4: "https://gateway-arbitrum.network.thegraph.com/api/0ae45f0bf40ae2e73119b44ccd755967/subgraphs/id/ELUcwgpm14LKPLrBRuVvPvNKHQ9HvwmtKgKSH6123cr7",
+		types.V2: "https://gateway.thegraph.com/api/27b52db08151aa3014307993833f704c/subgraphs/id/CStW6CSQbHoXsgKuVCrk3uShGA4JX3CAzzv2x9zaGf8w",
+		types.V3: "https://gateway.thegraph.com/api/27b52db08151aa3014307993833f704c/subgraphs/id/3V7ZY6muhxaQL5qvntX1CFXJ32W7BxXZTGTwmpH5J4t3",
+		types.V4: "https://gateway-arbitrum.network.thegraph.com/api/27b52db08151aa3014307993833f704c/subgraphs/id/Cd2gEDVeqnjBn1hSeqFMitw8Q1iiyXHRKWOTLxHdHfX7",
 	},
-	types.Polygon: {
-		types.V2: "https://gateway-arbitrum.network.thegraph.com/api/0ae45f0bf40ae2e73119b44ccd755967/subgraphs/id/ELUcwgpm14LKPLrBRuVvPvNKHQ9HvwmtKgKSH6123cr7",
-		types.V3: "https://gateway-arbitrum.network.thegraph.com/api/0ae45f0bf40ae2e73119b44ccd755967/subgraphs/id/ELUcwgpm14LKPLrBRuVvPvNKHQ9HvwmtKgKSH6123cr7",
-		types.V4: "https://gateway-arbitrum.network.thegraph.com/api/0ae45f0bf40ae2e73119b44ccd755967/subgraphs/id/ELUcwgpm14LKPLrBRuVvPvNKHQ9HvwmtKgKSH6123cr7",
-	},
-	types.Base: {
-		types.V2: "https://gateway-arbitrum.network.thegraph.com/api/0ae45f0bf40ae2e73119b44ccd755967/subgraphs/id/ELUcwgpm14LKPLrBRuVvPvNKHQ9HvwmtKgKSH6123cr7",
-		types.V3: "https://gateway-arbitrum.network.thegraph.com/api/0ae45f0bf40ae2e73119b44ccd755967/subgraphs/id/ELUcwgpm14LKPLrBRuVvPvNKHQ9HvwmtKgKSH6123cr7",
-		types.V4: "https://gateway-arbitrum.network.thegraph.com/api/0ae45f0bf40ae2e73119b44ccd755967/subgraphs/id/ELUcwgpm14LKPLrBRuVvPvNKHQ9HvwmtKgKSH6123cr7",
-	},
+	// types.Polygon: {
+	// 	types.V2: "https://gateway-arbitrum.network.thegraph.com/api/27b52db08151aa3014307993833f704c/subgraphs/id/EYCKATKGBKLWvSfwvBjzfCBmGwYNdVkduYXVivCsLRFu",
+	// 	types.V3: "https://gateway-arbitrum.network.thegraph.com/api/27b52db08151aa3014307993833f704c/subgraphs/id/3hCPRGf4z88VC5rsBKU5AA9FBBq5nF3jbKJG7VZCbhjm",
+	// 	types.V4: "https://gateway-arbitrum.network.thegraph.com/api/27b52db08151aa3014307993833f704c/subgraphs/id/Cd2gEDVeqnjBn1hSeqFMitw8Q1iiyXHRKWOTLxHdHfX7",
+	// },
+	// types.Base: {
+	// 	types.V2: "https://gateway-arbitrum.network.thegraph.com/api/27b52db08151aa3014307993833f704c/subgraphs/id/EYCKATKGBKLWvSfwvBjzfCBmGwYNdVkduYXVivCsLRFu",
+	// 	types.V3: "https://gateway-arbitrum.network.thegraph.com/api/27b52db08151aa3014307993833f704c/subgraphs/id/43Hwfi3dJSoGpyas9VwNoDAV7mmhZVMkCFNcJoFMorxe",
+	// 	types.V4: "https://gateway-arbitrum.network.thegraph.com/api/27b52db08151aa3014307993833f704c/subgraphs/id/9Bz5KDpGTnqWPH6sxCCwFaYsVN8WSwATp9VaLm8WdB8U",
+	// },
 	types.BSC: {
-		types.V2: "https://gateway-arbitrum.network.thegraph.com/api/0ae45f0bf40ae2e73119b44ccd755967/subgraphs/id/ELUcwgpm14LKPLrBRuVvPvNKHQ9HvwmtKgKSH6123cr7",
-		types.V3: "https://gateway-arbitrum.network.thegraph.com/api/0ae45f0bf40ae2e73119b44ccd755967/subgraphs/id/ELUcwgpm14LKPLrBRuVvPvNKHQ9HvwmtKgKSH6123cr7",
-		types.V4: "https://gateway-arbitrum.network.thegraph.com/api/0ae45f0bf40ae2e73119b44ccd755967/subgraphs/id/ELUcwgpm14LKPLrBRuVvPvNKHQ9HvwmtKgKSH6123cr7",
+		types.V2: "https://gateway.thegraph.com/api/" + API_KEY + "/subgraphs/id/8EjCaWZumyAfN3wyB4QnibeeXaYS8i4sp1PiWT91AGrt",
+		types.V3: "https://gateway.thegraph.com/api/" + API_KEY + "/subgraphs/id/F85MNzUGYqgSHSHRGgeVMNsdnW1KtZSVgFULumXRZTw2",
+		types.V4: "https://gateway.thegraph.com/api/" + API_KEY + "/subgraphs/id/Cd2gEDVeqnjBn1hSeqFMitw8Q1iiyXHRKWOTLxHdHfX7",
 	},
-	types.Avalanche: {
-		types.V2: "https://gateway-arbitrum.network.thegraph.com/api/0ae45f0bf40ae2e73119b44ccd755967/subgraphs/id/ELUcwgpm14LKPLrBRuVvPvNKHQ9HvwmtKgKSH6123cr7",
-		types.V3: "https://gateway-arbitrum.network.thegraph.com/api/0ae45f0bf40ae2e73119b44ccd755967/subgraphs/id/ELUcwgpm14LKPLrBRuVvPvNKHQ9HvwmtKgKSH6123cr7",
-		types.V4: "https://gateway-arbitrum.network.thegraph.com/api/0ae45f0bf40ae2e73119b44ccd755967/subgraphs/id/ELUcwgpm14LKPLrBRuVvPvNKHQ9HvwmtKgKSH6123cr7",
-	},
-	types.Celo: {
-		types.V2: "https://gateway-arbitrum.network.thegraph.com/api/0ae45f0bf40ae2e73119b44ccd755967/subgraphs/id/ELUcwgpm14LKPLrBRuVvPvNKHQ9HvwmtKgKSH6123cr7",
-		types.V3: "https://gateway-arbitrum.network.thegraph.com/api/0ae45f0bf40ae2e73119b44ccd755967/subgraphs/id/ELUcwgpm14LKPLrBRuVvPvNKHQ9HvwmtKgKSH6123cr7",
-		types.V4: "https://gateway-arbitrum.network.thegraph.com/api/0ae45f0bf40ae2e73119b44ccd755967/subgraphs/id/ELUcwgpm14LKPLrBRuVvPvNKHQ9HvwmtKgKSH6123cr7",
-	},
-	types.Sepolia: {
-		types.V2: "https://gateway-arbitrum.network.thegraph.com/api/0ae45f0bf40ae2e73119b44ccd755967/subgraphs/id/ELUcwgpm14LKPLrBRuVvPvNKHQ9HvwmtKgKSH6123cr7",
-		types.V3: "https://gateway-arbitrum.network.thegraph.com/api/0ae45f0bf40ae2e73119b44ccd755967/subgraphs/id/ELUcwgpm14LKPLrBRuVvPvNKHQ9HvwmtKgKSH6123cr7",
-		types.V4: "https://gateway-arbitrum.network.thegraph.com/api/0ae45f0bf40ae2e73119b44ccd755967/subgraphs/id/ELUcwgpm14LKPLrBRuVvPvNKHQ9HvwmtKgKSH6123cr7",
-	},
-	types.Goerli: {
-		types.V2: "https://gateway-arbitrum.network.thegraph.com/api/0ae45f0bf40ae2e73119b44ccd755967/subgraphs/id/ELUcwgpm14LKPLrBRuVvPvNKHQ9HvwmtKgKSH6123cr7",
-		types.V3: "https://gateway-arbitrum.network.thegraph.com/api/0ae45f0bf40ae2e73119b44ccd755967/subgraphs/id/ELUcwgpm14LKPLrBRuVvPvNKHQ9HvwmtKgKSH6123cr7",
-		types.V4: "https://gateway-arbitrum.network.thegraph.com/api/0ae45f0bf40ae2e73119b44ccd755967/subgraphs/id/ELUcwgpm14LKPLrBRuVvPvNKHQ9HvwmtKgKSH6123cr7",
-	},
+	// types.Avalanche: {
+	// 	types.V2: "https://gateway-arbitrum.network.thegraph.com/api/27b52db08151aa3014307993833f704c/subgraphs/id/EYCKATKGBKLWvSfwvBjzfCBmGwYNdVkduYXVivCsLRFu",
+	// 	types.V3: "https://gateway-arbitrum.network.thegraph.com/api/27b52db08151aa3014307993833f704c/subgraphs/id/ELnTJ1JYVkJnSuBc3iCQMNaJMDYxWqEcdYZpydVkQD1t",
+	// 	types.V4: "https://gateway-arbitrum.network.thegraph.com/api/27b52db08151aa3014307993833f704c/subgraphs/id/Cd2gEDVeqnjBn1hSeqFMitw8Q1iiyXHRKWOTLxHdHfX7",
+	// },
+	// types.Celo: {
+	// 	types.V2: "https://gateway-arbitrum.network.thegraph.com/api/27b52db08151aa3014307993833f704c/subgraphs/id/EYCKATKGBKLWvSfwvBjzfCBmGwYNdVkduYXVivCsLRFu",
+	// 	types.V3: "https://gateway-arbitrum.network.thegraph.com/api/27b52db08151aa3014307993833f704c/subgraphs/id/ESdrTJ14n8wxu2ARvmau6LbAo5TYjGPLFV11Uz2HK5z1",
+	// 	types.V4: "https://gateway-arbitrum.network.thegraph.com/api/27b52db08151aa3014307993833f704c/subgraphs/id/Cd2gEDVeqnjBn1hSeqFMitw8Q1iiyXHRKWOTLxHdHfX7",
+	// },
+	// types.Sepolia: {
+	// 	types.V2: "https://gateway-arbitrum.network.thegraph.com/api/27b52db08151aa3014307993833f704c/subgraphs/id/EYCKATKGBKLWvSfwvBjzfCBmGwYNdVkduYXVivCsLRFu",
+	// 	types.V3: "https://gateway-arbitrum.network.thegraph.com/api/27b52db08151aa3014307993833f704c/subgraphs/id/5zvR82QoaXuFYDEKLZ9t6v9adgnptxYpKpSbxtgVENFV",
+	// 	types.V4: "https://gateway-arbitrum.network.thegraph.com/api/27b52db08151aa3014307993833f704c/subgraphs/id/Cd2gEDVeqnjBn1hSeqFMitw8Q1iiyXHRKWOTLxHdHfX7",
+	// },
+	// types.Goerli: {
+	// 	types.V2: "https://gateway-arbitrum.network.thegraph.com/api/0ae45f0bf40ae2e73119b44ccd755967/subgraphs/id/ELUcwgpm14LKPLrBRuVvPvNKHQ9HvwmtKgKSH6123cr7",
+	// 	types.V3: "https://gateway-arbitrum.network.thegraph.com/api/0ae45f0bf40ae2e73119b44ccd755967/subgraphs/id/ELUcwgpm14LKPLrBRuVvPvNKHQ9HvwmtKgKSH6123cr7",
+	// 	types.V4: "https://gateway-arbitrum.network.thegraph.com/api/0ae45f0bf40ae2e73119b44ccd755967/subgraphs/id/ELUcwgpm14LKPLrBRuVvPvNKHQ9HvwmtKgKSH6123cr7",
+	// },
 }
 
 // IPFSCacheURLs maps chain IDs to their IPFS cache URLs
