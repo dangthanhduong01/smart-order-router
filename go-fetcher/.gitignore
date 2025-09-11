@@ -20,6 +20,7 @@ go.work
 # Build artifacts
 bin/
 dist/
+data/
 
 # IDE files
 .vscode/

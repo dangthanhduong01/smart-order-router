@@ -26,10 +26,11 @@ import (
 // GraphQLSubgraphProvider fetches pools directly from subgraph using GraphQL
 type GraphQLSubgraphProvider struct {
 	BaseProvider
-	client       *graphql.Client
-	timeout      time.Duration
-	retries      int
-	queryBuilder *QueryBuilder
+	client        *graphql.Client
+	timeout       time.Duration
+	retries       int
+	queryBuilder  *QueryBuilder
+	poolBlacklist *PoolBlacklist // Add blacklist for pool tracking
 	// concurrency control
 	maxConcurrency int
 	sem            chan struct{}
@@ -44,6 +45,7 @@ func NewGraphQLSubgraphProvider(chainID types.ChainID, protocol types.Protocol, 
 		timeout:        timeout,
 		retries:        retries,
 		queryBuilder:   NewQueryBuilder(protocol, chainID),
+		poolBlacklist:  NewPoolBlacklist(3), // blacklist after 3 failures
 		maxConcurrency: getMaxConcurrencyFromEnv(),
 	}
 	p.sem = make(chan struct{}, p.maxConcurrency)
@@ -69,6 +71,7 @@ func NewGraphQLSubgraphProviderWithAuth(chainID types.ChainID, protocol types.Pr
 		timeout:        timeout,
 		retries:        retries,
 		queryBuilder:   NewQueryBuilder(protocol, chainID),
+		poolBlacklist:  NewPoolBlacklist(3), // blacklist after 3 failures
 		maxConcurrency: getMaxConcurrencyFromEnv(),
 	}
 	p.sem = make(chan struct{}, p.maxConcurrency)
@@ -1230,6 +1233,18 @@ func (p *GraphQLSubgraphProvider) fetchTokensOnChainMulticall(ctx context.Contex
 		}
 		b, _ := json.Marshal(reqBody)
 
+		// Create multicall result for tracking
+		mcResult := MulticallResult{
+			Success:     false,
+			ReturnData:  nil,
+			GasUsed:     0,
+			GasLimit:    0,
+			PoolAddress: mcAddr,
+			RouteID:     fmt.Sprintf("multicall_batch_%d", i/batchSize),
+			AmountIn:    nil,
+			BlockNumber: 0,
+		}
+
 		// Retryable HTTP POST with exponential backoff + jitter
 		rand.Seed(time.Now().UnixNano())
 		retries, baseMs := getRPCRetryParams()
@@ -1239,25 +1254,30 @@ func (p *GraphQLSubgraphProvider) fetchTokensOnChainMulticall(ctx context.Contex
 			req, err := http.NewRequestWithContext(ctx, "POST", rpc, bytes.NewReader(b))
 			if err != nil {
 				lastErr = err
+				mcResult.ErrorMessage = err.Error()
 			} else {
 				req.Header.Set("Content-Type", "application/json")
 				resp, err := http.DefaultClient.Do(req)
 				if err != nil {
 					lastErr = err
+					mcResult.ErrorMessage = err.Error()
 				} else {
 					func() {
 						defer resp.Body.Close()
 						if resp.StatusCode >= 500 {
 							lastErr = fmt.Errorf("rpc http status %d", resp.StatusCode)
+							mcResult.ErrorMessage = lastErr.Error()
 							return
 						}
 						body, err := io.ReadAll(resp.Body)
 						if err != nil {
 							lastErr = err
+							mcResult.ErrorMessage = err.Error()
 							return
 						}
 						rb = body
 						lastErr = nil
+						mcResult.Success = true
 					}()
 				}
 			}
@@ -1271,7 +1291,13 @@ func (p *GraphQLSubgraphProvider) fetchTokensOnChainMulticall(ctx context.Contex
 				time.Sleep(backoff + jitter)
 			}
 		}
+
+		// Classify the multicall result
 		if lastErr != nil {
+			mcResult.ErrorMessage = lastErr.Error()
+			classified := ClassifyMulticallResults([]MulticallResult{mcResult}, 0.90)
+			fmt.Printf("Multicall batch %d failed with status: %s, reason: %s\n",
+				i/batchSize, classified[0].Status.String(), classified[0].Reason)
 			return nil, lastErr
 		}
 
