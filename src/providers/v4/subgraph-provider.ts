@@ -77,6 +77,8 @@ export class V4SubgraphProvider
     timeout = 30000,
     rollback = true,
     trackedEthThreshold = 0.01,
+    trackedZoraEthThreshold = 0.001,
+    zoraHooks = new Set<string>(),
     untrackedUsdThreshold = Number.MAX_VALUE,
     subgraphUrlOverride?: string,
     bearerToken?: string
@@ -88,6 +90,8 @@ export class V4SubgraphProvider
       timeout,
       rollback,
       trackedEthThreshold,
+      trackedZoraEthThreshold,
+      zoraHooks,
       untrackedUsdThreshold,
       subgraphUrlOverride ?? SUBGRAPH_URL_BY_CHAIN[chainId],
       bearerToken

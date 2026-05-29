@@ -31,6 +31,7 @@ import {
   USDC_BASE_SEPOLIA,
   USDC_BNB,
   USDC_MAINNET,
+  USDC_MONAD,
   USDC_MOONBEAM,
   USDC_NATIVE_ARBITRUM,
   USDC_OPTIMISM,
@@ -39,6 +40,7 @@ import {
   USDC_UNICHAIN,
   USDC_UNICHAIN_SEPOLIA,
   USDC_WORLDCHAIN,
+  USDC_XLAYER,
   USDC_ZKSYNC,
   USDT_ARBITRUM,
   USDT_BNB,
@@ -185,6 +187,16 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
     nativeOnChain(ChainId.SONEIUM),
     WRAPPED_NATIVE_CURRENCY[ChainId.SONEIUM]!,
     USDC_SONEIUM,
+  ],
+  [ChainId.MONAD]: [
+    nativeOnChain(ChainId.MONAD),
+    WRAPPED_NATIVE_CURRENCY[ChainId.MONAD]!,
+    USDC_MONAD,
+  ],
+  [ChainId.XLAYER]: [
+    nativeOnChain(ChainId.XLAYER),
+    WRAPPED_NATIVE_CURRENCY[ChainId.XLAYER]!,
+    USDC_XLAYER,
   ],
 };
 

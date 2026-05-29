@@ -1,3 +1,4 @@
+import { ADDRESS_ZERO } from '@uniswap/router-sdk';
 import {
   ChainId,
   CHAIN_TO_ADDRESSES_MAP,
@@ -8,7 +9,6 @@ import {
 } from '@uniswap/sdk-core';
 import { FACTORY_ADDRESS } from '@uniswap/v3-sdk';
 
-import { ADDRESS_ZERO } from '@uniswap/router-sdk';
 import { NETWORKS_WITH_SAME_UNISWAP_ADDRESSES } from './chains';
 
 export const BNB_TICK_LENS_ADDRESS =
@@ -50,6 +50,7 @@ export const V3_CORE_FACTORY_ADDRESSES: AddressMap = {
     CHAIN_TO_ADDRESSES_MAP[ChainId.UNICHAIN_SEPOLIA].v3CoreFactoryAddress,
   [ChainId.MONAD_TESTNET]:
     CHAIN_TO_ADDRESSES_MAP[ChainId.MONAD_TESTNET].v3CoreFactoryAddress,
+  [ChainId.MONAD]: CHAIN_TO_ADDRESSES_MAP[ChainId.MONAD].v3CoreFactoryAddress,
   [ChainId.BASE_SEPOLIA]:
     CHAIN_TO_ADDRESSES_MAP[ChainId.BASE_SEPOLIA].v3CoreFactoryAddress,
   // TODO: Gnosis + Moonbeam contracts to be deployed
@@ -57,6 +58,7 @@ export const V3_CORE_FACTORY_ADDRESSES: AddressMap = {
     CHAIN_TO_ADDRESSES_MAP[ChainId.UNICHAIN].v3CoreFactoryAddress,
   [ChainId.SONEIUM]:
     CHAIN_TO_ADDRESSES_MAP[ChainId.SONEIUM].v3CoreFactoryAddress,
+  [ChainId.XLAYER]: CHAIN_TO_ADDRESSES_MAP[ChainId.XLAYER].v3CoreFactoryAddress,
 };
 
 export const QUOTER_V2_ADDRESSES: AddressMap = {
@@ -87,11 +89,13 @@ export const QUOTER_V2_ADDRESSES: AddressMap = {
     CHAIN_TO_ADDRESSES_MAP[ChainId.UNICHAIN_SEPOLIA].quoterAddress,
   [ChainId.MONAD_TESTNET]:
     CHAIN_TO_ADDRESSES_MAP[ChainId.MONAD_TESTNET].quoterAddress,
+  [ChainId.MONAD]: CHAIN_TO_ADDRESSES_MAP[ChainId.MONAD].quoterAddress,
   [ChainId.BASE_SEPOLIA]:
     CHAIN_TO_ADDRESSES_MAP[ChainId.BASE_SEPOLIA].quoterAddress,
   // TODO: Gnosis + Moonbeam contracts to be deployed
   [ChainId.UNICHAIN]: CHAIN_TO_ADDRESSES_MAP[ChainId.UNICHAIN].quoterAddress,
   [ChainId.SONEIUM]: CHAIN_TO_ADDRESSES_MAP[ChainId.SONEIUM].quoterAddress,
+  [ChainId.XLAYER]: CHAIN_TO_ADDRESSES_MAP[ChainId.XLAYER].quoterAddress,
 };
 
 export const NEW_QUOTER_V2_ADDRESSES: AddressMap = {
@@ -114,10 +118,12 @@ export const NEW_QUOTER_V2_ADDRESSES: AddressMap = {
     CHAIN_TO_ADDRESSES_MAP[ChainId.UNICHAIN_SEPOLIA].quoterAddress, // TODO: deploy view-only-quoter to UNICHAIN
   [ChainId.MONAD_TESTNET]:
     CHAIN_TO_ADDRESSES_MAP[ChainId.MONAD_TESTNET].quoterAddress, // TODO: deploy view-only-quoter to monad testnet
+  [ChainId.MONAD]: CHAIN_TO_ADDRESSES_MAP[ChainId.MONAD].quoterAddress, // TODO: deploy view-only-quoter to monad
   [ChainId.BASE_SEPOLIA]:
     CHAIN_TO_ADDRESSES_MAP[ChainId.BASE_SEPOLIA].quoterAddress,
   [ChainId.UNICHAIN]: CHAIN_TO_ADDRESSES_MAP[ChainId.UNICHAIN].quoterAddress, // TODO: deploy view-only-quoter to unichain
   [ChainId.SONEIUM]: CHAIN_TO_ADDRESSES_MAP[ChainId.SONEIUM].quoterAddress,
+  [ChainId.XLAYER]: CHAIN_TO_ADDRESSES_MAP[ChainId.XLAYER].quoterAddress,
 };
 
 export const PROTOCOL_V4_QUOTER_ADDRESSES: AddressMap = {
@@ -140,6 +146,9 @@ export const PROTOCOL_V4_QUOTER_ADDRESSES: AddressMap = {
   [ChainId.BLAST]: CHAIN_TO_ADDRESSES_MAP[ChainId.BLAST].v4QuoterAddress,
   [ChainId.MAINNET]: CHAIN_TO_ADDRESSES_MAP[ChainId.MAINNET].v4QuoterAddress,
   [ChainId.SONEIUM]: CHAIN_TO_ADDRESSES_MAP[ChainId.SONEIUM].v4QuoterAddress,
+  [ChainId.MONAD]: CHAIN_TO_ADDRESSES_MAP[ChainId.MONAD].v4QuoterAddress,
+  [ChainId.CELO]: CHAIN_TO_ADDRESSES_MAP[ChainId.CELO].v4QuoterAddress,
+  [ChainId.XLAYER]: CHAIN_TO_ADDRESSES_MAP[ChainId.XLAYER].v4QuoterAddress,
 };
 
 export const MIXED_ROUTE_QUOTER_V1_ADDRESSES: AddressMap = {
@@ -157,6 +166,8 @@ export const MIXED_ROUTE_QUOTER_V1_ADDRESSES: AddressMap = {
   [ChainId.WORLDCHAIN]: '0x204FAca1764B154221e35c0d20aBb3c525710498',
   [ChainId.ZORA]: '0x204FAca1764B154221e35c0d20aBb3c525710498',
   [ChainId.SONEIUM]: '0x42c14CE921e85bf14467A82fAf8182546cf7c604',
+  [ChainId.XLAYER]: '0x2d01411773c8c24805306e89a41f7855c3c4fe65',
+  [ChainId.MONAD]: '0xdcd9f4e8972f619b325b0c3109412dfc4d184734',
 };
 
 export const MIXED_ROUTE_QUOTER_V2_ADDRESSES: AddressMap = {
@@ -173,6 +184,8 @@ export const MIXED_ROUTE_QUOTER_V2_ADDRESSES: AddressMap = {
   [ChainId.WORLDCHAIN]: '0x9D0F15f2cf58655fDDcD1EE6129C547fDaeD01b1',
   [ChainId.ZORA]: '0x5f739c790a48E97eec0efb81bab5D152c0A0ecA0',
   [ChainId.SONEIUM]: '0x42c14CE921e85bf14467A82fAf8182546cf7c604',
+  [ChainId.XLAYER]: '0x2d01411773c8c24805306e89a41f7855c3c4fe65',
+  [ChainId.MONAD]: '0xdcd9f4e8972f619b325b0c3109412dfc4d184734',
 };
 
 export const UNISWAP_MULTICALL_ADDRESSES: AddressMap = {
@@ -204,11 +217,13 @@ export const UNISWAP_MULTICALL_ADDRESSES: AddressMap = {
     CHAIN_TO_ADDRESSES_MAP[ChainId.UNICHAIN_SEPOLIA].multicallAddress,
   [ChainId.MONAD_TESTNET]:
     CHAIN_TO_ADDRESSES_MAP[ChainId.MONAD_TESTNET].multicallAddress,
+  [ChainId.MONAD]: CHAIN_TO_ADDRESSES_MAP[ChainId.MONAD].multicallAddress,
   [ChainId.BASE_SEPOLIA]:
     CHAIN_TO_ADDRESSES_MAP[ChainId.BASE_SEPOLIA].multicallAddress,
   // TODO: Gnosis + Moonbeam contracts to be deployed
   [ChainId.UNICHAIN]: CHAIN_TO_ADDRESSES_MAP[ChainId.UNICHAIN].multicallAddress,
   [ChainId.SONEIUM]: CHAIN_TO_ADDRESSES_MAP[ChainId.SONEIUM].multicallAddress,
+  [ChainId.XLAYER]: CHAIN_TO_ADDRESSES_MAP[ChainId.XLAYER].multicallAddress,
 };
 
 export const SWAP_ROUTER_02_ADDRESSES = (chainId: number): string => {
@@ -236,6 +251,9 @@ export const STATE_VIEW_ADDRESSES: AddressMap = {
   [ChainId.BLAST]: CHAIN_TO_ADDRESSES_MAP[ChainId.BLAST].v4StateView,
   [ChainId.MAINNET]: CHAIN_TO_ADDRESSES_MAP[ChainId.MAINNET].v4StateView,
   [ChainId.SONEIUM]: CHAIN_TO_ADDRESSES_MAP[ChainId.SONEIUM].v4StateView,
+  [ChainId.MONAD]: CHAIN_TO_ADDRESSES_MAP[ChainId.MONAD].v4StateView,
+  [ChainId.CELO]: CHAIN_TO_ADDRESSES_MAP[ChainId.CELO].v4StateView,
+  [ChainId.XLAYER]: CHAIN_TO_ADDRESSES_MAP[ChainId.XLAYER].v4StateView,
 };
 
 export const OVM_GASPRICE_ADDRESS =
@@ -277,6 +295,7 @@ export const WETH9: {
     | ChainId.BNB
     | ChainId.AVALANCHE
     | ChainId.MONAD_TESTNET
+    | ChainId.MONAD
     // TODO: remove ROOTSTOCK once we support both at the routing level
     | ChainId.ROOTSTOCK
   >]: Token;
@@ -325,6 +344,7 @@ export const WETH9: {
   [ChainId.BASE_SEPOLIA]: WETH9_HELPER[ChainId.BASE_SEPOLIA]!,
   [ChainId.UNICHAIN]: WETH9_HELPER[ChainId.UNICHAIN]!,
   [ChainId.SONEIUM]: WETH9_HELPER[ChainId.SONEIUM]!,
+  [ChainId.XLAYER]: WETH9_HELPER[ChainId.XLAYER]!,
 };
 
 export const BEACON_CHAIN_DEPOSIT_ADDRESS =

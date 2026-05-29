@@ -1,10 +1,10 @@
 import { ADDRESS_ZERO, Protocol } from '@uniswap/router-sdk';
 import { ChainId, Currency, Token, TradeType } from '@uniswap/sdk-core';
+import { isNativeCurrency } from '@uniswap/universal-router-sdk';
 import { FeeAmount } from '@uniswap/v3-sdk';
+import { DYNAMIC_FEE_FLAG } from '@uniswap/v4-sdk';
 import _ from 'lodash';
 
-import { isNativeCurrency } from '@uniswap/universal-router-sdk';
-import { DYNAMIC_FEE_FLAG } from '@uniswap/v4-sdk';
 import {
   DAI_OPTIMISM_SEPOLIA,
   isPoolFeeDynamic,
@@ -48,6 +48,7 @@ import {
   USDC_BNB,
   USDC_ETHEREUM_GNOSIS,
   USDC_MAINNET,
+  USDC_MONAD,
   USDC_MOONBEAM,
   USDC_OPTIMISM,
   USDC_OPTIMISM_GOERLI,
@@ -55,6 +56,7 @@ import {
   USDC_SEPOLIA,
   USDC_SONEIUM,
   USDC_UNICHAIN,
+  USDC_XLAYER,
   USDT_ARBITRUM,
   USDT_BNB,
   USDT_MAINNET,
@@ -254,6 +256,7 @@ const baseTokensByChain: { [chainId in ChainId]?: Token[] } = {
     WRAPPED_NATIVE_CURRENCY[ChainId.MONAD_TESTNET]!,
     USDT_MONAD_TESTNET,
   ],
+  [ChainId.MONAD]: [WRAPPED_NATIVE_CURRENCY[ChainId.MONAD]!, USDC_MONAD],
   [ChainId.BASE_SEPOLIA]: [
     WRAPPED_NATIVE_CURRENCY[ChainId.BASE_SEPOLIA]!,
     USDC_BASE_SEPOLIA,
@@ -264,6 +267,7 @@ const baseTokensByChain: { [chainId in ChainId]?: Token[] } = {
     USDC_UNICHAIN,
   ],
   [ChainId.SONEIUM]: [USDC_SONEIUM, WRAPPED_NATIVE_CURRENCY[ChainId.SONEIUM]!],
+  [ChainId.XLAYER]: [USDC_XLAYER, WRAPPED_NATIVE_CURRENCY[ChainId.XLAYER]!],
 };
 
 const excludedV3PoolIds = new Set([
@@ -948,7 +952,13 @@ export async function getV4CandidatePools({
     let fee: number;
     try {
       fee = Number(subgraphPool.feeTier);
-      fee = isPoolFeeDynamic(tokenA!, tokenB!, subgraphPool)
+      fee = isPoolFeeDynamic(
+        tokenA!,
+        tokenB!,
+        Number(subgraphPool.tickSpacing),
+        subgraphPool.hooks,
+        subgraphPool.id
+      )
         ? DYNAMIC_FEE_FLAG
         : fee;
     } catch (err) {

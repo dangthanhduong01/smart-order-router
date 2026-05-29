@@ -87,7 +87,8 @@ export class V3SubgraphProvider
     rollback = true,
     trackedEthThreshold = 0.01,
     untrackedUsdThreshold = Number.MAX_VALUE,
-    subgraphUrlOverride?: string
+    subgraphUrlOverride?: string,
+    bearerToken?: string
   ) {
     super(
       Protocol.V3,
@@ -96,8 +97,11 @@ export class V3SubgraphProvider
       timeout,
       rollback,
       trackedEthThreshold,
+      0, // trackedZoraEthThreshold is not applicable for V3
+      new Set<string>(), // zoraHooks is not applicable for V3
       untrackedUsdThreshold,
-      subgraphUrlOverride ?? SUBGRAPH_URL_BY_CHAIN[chainId]
+      subgraphUrlOverride ?? SUBGRAPH_URL_BY_CHAIN[chainId],
+      bearerToken
     );
   }
 

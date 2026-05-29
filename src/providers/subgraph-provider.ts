@@ -9,6 +9,7 @@ import { SubgraphPool } from '../routers/alpha-router/functions/get-candidate-po
 import { log, metric } from '../util';
 
 import { ProviderConfig } from './provider';
+import { V4RawSubgraphPool } from './v4/subgraph-provider';
 
 export interface ISubgraphProvider<TSubgraphPool extends SubgraphPool> {
   getPools(
@@ -65,6 +66,8 @@ export abstract class SubgraphProvider<
     private timeout = 30000,
     private rollback = true,
     private trackedEthThreshold = 0.01,
+    private trackedZoraEthThreshold = 0.001,
+    private zoraHooks: Set<string>,
     // @ts-expect-error - kept for backward compatibility
     private untrackedUsdThreshold = Number.MAX_VALUE,
     private subgraphUrl?: string,
@@ -74,6 +77,8 @@ export abstract class SubgraphProvider<
     if (!this.subgraphUrl) {
       throw new Error(`No subgraph url for chain id: ${this.chainId}`);
     }
+    log.info('bearerToken is', this.bearerToken);
+
     if (this.bearerToken) {
       this.client = new GraphQLClient(this.subgraphUrl, {
         headers: {
@@ -82,6 +87,9 @@ export abstract class SubgraphProvider<
       });
     } else {
       this.client = new GraphQLClient(this.subgraphUrl);
+    }
+    if (protocol === Protocol.V4 && this.zoraHooks.size === 0) {
+      throw new Error('Zora hooks param is mandatory for V4');
     }
   }
 
@@ -131,30 +139,55 @@ export abstract class SubgraphProvider<
         `,
         variables: { threshold: this.trackedEthThreshold.toString() },
       },
-      // 2. V4: Pools with liquidity > 0 (separate condition for V4)
+      // 2. V4: Non-Zora pools with liquidity > 0
       ...(this.protocol === Protocol.V4
         ? [
             {
-              name: 'V4 high liquidity pools',
+              name: 'V4 non-Zora high liquidity pools',
               query: gql`
-          query getV4HighLiquidityPools($pageSize: Int!, $id: String) {
+          query getV4NonZoraHighLiquidityPools($pageSize: Int!, $id: String, $zoraHooks: [String!]!) {
             pools(
               first: $pageSize
               ${blockNumber ? `block: { number: ${blockNumber} }` : ``}
               where: {
                 id_gt: $id,
-                liquidity_gt: "0"
+                liquidity_gt: "0",
+                hooks_not_in: $zoraHooks
               }
             ) {
               ${this.getPoolFields()}
             }
           }
         `,
-              variables: {},
+              variables: { zoraHooks: Array.from(this.zoraHooks) },
+            },
+            // 3. V4: Zora pools with liquidity > 0 AND TVL > trackedZoraEthThreshold
+            {
+              name: 'V4 Zora high liquidity pools',
+              query: gql`
+          query getV4ZoraHighLiquidityPools($pageSize: Int!, $id: String, $zoraHooks: [String!]!, $zoraThreshold: String!) {
+            pools(
+              first: $pageSize
+              ${blockNumber ? `block: { number: ${blockNumber} }` : ``}
+              where: {
+                id_gt: $id,
+                liquidity_gt: "0",
+                hooks_in: $zoraHooks,
+                totalValueLockedETH_gt: $zoraThreshold
+              }
+            ) {
+              ${this.getPoolFields()}
+            }
+          }
+        `,
+              variables: {
+                zoraHooks: Array.from(this.zoraHooks),
+                zoraThreshold: this.trackedZoraEthThreshold.toString(),
+              },
             },
           ]
         : []),
-      // 3. V3: Pools with liquidity > 0 AND totalValueLockedETH = 0 (special V3 condition)
+      // 4. V3: Pools with liquidity > 0 AND totalValueLockedETH = 0 (special V3 condition)
       ...(this.protocol === Protocol.V3
         ? [
             {
@@ -337,13 +370,21 @@ export abstract class SubgraphProvider<
         .map((pool) => {
           return this.mapSubgraphPool(pool);
         });
-    } else {
+    } else if (this.protocol === Protocol.V4) {
+      // For V4, apply additional filtering as a safety measure even though queries are optimized
       poolsSanitized = allPools
-        .filter(
-          (pool) =>
-            parseInt(pool.liquidity) > 0 ||
-            parseFloat(pool.totalValueLockedETH) > this.trackedEthThreshold
-        )
+        .filter((pool) => {
+          const liquidity = parseInt(pool.liquidity);
+          const tvl = parseFloat(pool.totalValueLockedETH);
+          const hooks = (pool as unknown as V4RawSubgraphPool).hooks;
+          const isZora = this.zoraHooks.has(hooks);
+
+          if (isZora) {
+            return tvl > this.trackedZoraEthThreshold;
+          }
+
+          return liquidity > 0 || tvl > this.trackedEthThreshold;
+        })
         .map((pool) => {
           return this.mapSubgraphPool(pool);
         });
